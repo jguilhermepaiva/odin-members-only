@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Log In | Members Only</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+      <div class="mb-4">
+        <a href="/" class="text-sm text-gray-400 hover:text-indigo-600 flex items-center transition">
+          ← Voltar para o início
+        </a>
+      </div>
+      <h2 class="text-3xl font-extrabold text-indigo-600 mb-6 text-center">Entrar no Clube</h2>
+
+      <form action="/auth/log-in" method="POST" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase">Email</label>
+          <input
+            type="email"
+            name="username"
+            required
+            class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-400"
+          />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase">Senha</label>
+          <input
+            type="password"
+            name="password"
+            required
+            class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-400"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition"
+        >
+          Entrar
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

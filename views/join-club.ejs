@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Club | Members Only</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-200">
+        
+        <div class="mb-4">
+            <a href="/" class="text-sm text-gray-400 hover:text-indigo-600 flex items-center transition font-medium">
+                ← Voltar para o início
+            </a>
+        </div>
+
+        <h2 class="text-3xl font-extrabold text-indigo-600 mb-2">Entrar no Clube</h2>
+        <p class="text-gray-500 text-sm mb-6 leading-relaxed">
+            Digite o código secreto para revelar a identidade dos autores das mensagens.
+        </p>
+
+        <% if (errors && errors.length > 0) { %>
+            <div class="bg-red-50 border-l-4 border-red-500 p-3 mb-4">
+                <p class="text-sm text-red-700">❌ <%= errors[0].msg %></p>
+            </div>
+        <% } %>
+
+        <form action="/auth/join-club" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Código Secreto</label>
+                <input type="text" name="passcode" placeholder="Qual o segredo?" required 
+                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-400 focus:border-transparent outline-none transition">
+            </div>
+            
+            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition shadow-lg active:scale-95">
+                Validar Acesso
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>

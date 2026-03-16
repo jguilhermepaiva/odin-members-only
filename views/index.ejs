@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clubhouse | Members Only</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+    <nav class="bg-indigo-700 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            
+            <h1 class="text-2xl font-black tracking-tighter">🔒 MEMBERS ONLY</h1>
+            <div class="space-x-4">
+                <% if (currentUser) { %>
+                    <% if (currentUser.membership_status && currentUser.is_admin) { %>
+                        <p class="text-green-600 font-bold text-xs uppercase mb-2.5">✨ Você é um Admin do Clube!</p>
+                    <% } else if (currentUser.membership_status) { %>
+                        <p class="text-green-600 font-bold text-xs uppercase mb-2.5">✨ Você é um Membro do Clube!</p>
+                    <% } else { %>
+                        <a href="/auth/join-club" class="text-indigo-600 hover:underline text-sm font-bold italic">Clique aqui para entrar no clube!</a>
+                    <% } %>
+                    <a href="/messages/new" class="bg-indigo-500 hover:bg-indigo-400 text-white px-4 py-2 rounded-lg font-bold text-sm transition shadow-sm">
+                        + Postar Mensagem
+                    </a>
+                    <span class="text-indigo-200 text-sm">Olá, <%= currentUser.first_name %></span>
+                    <a href="/auth/log-out" class="hover:underline font-bold">Sair</a>
+                <% } else { %>
+                    <a href="/auth/log-in" class="hover:underline">Entrar</a>
+                    <a href="/auth/sign-up" class="bg-white text-indigo-700 px-4 py-2 rounded-lg font-bold hover:bg-indigo-50 transition">Cadastrar</a>
+                <% } %>
+            </div>
+        </div>
+        
+    </nav>
+
+    <main class="container mx-auto mt-12 px-4">
+        <div class="text-center mb-12">
+            <% if (currentUser && currentUser.membership_status && !currentUser.is_admin) { %>
+                <div class="text-center mt-4">
+                    <a href="/auth/admin" class="text-xs text-gray-400 hover:text-red-500 transition underline">
+                        É um administrador? Clique aqui.
+                    </a>
+                </div>
+            <% } %>
+            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">Bem-vindo ao Clubhouse</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto italic">
+                Um lugar onde as mensagens são livres, mas as identidades são secretas... a menos que você faça parte do clube.
+            </p>
+        </div>
+        
+       <div class="max-w-4xl mx-auto space-y-6">
+            <% if (messages.length > 0) { %>
+                <% messages.forEach(message => { %>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <h3 class="text-xl font-bold text-indigo-900"><%= message.title %></h3>
+                        <p class="text-gray-700 mt-2 leading-relaxed"><%= message.text %></p>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center text-xs">
+                            <% if (currentUser && currentUser.membership_status) { %>
+                                <div class="flex flex-col">
+                                    <span class="text-indigo-600 font-bold">Por: <%= message.first_name %> <%= message.last_name %></span>
+                                    <span class="text-gray-400"><%= new Date(message.timestamp).toLocaleString('pt-BR') %></span>
+                                </div>
+                                    <% if (currentUser && (currentUser.is_admin || currentUser.id === message.user_id)) { %>
+                                        <form action="/messages/delete" method="POST" class="mt-2">
+                                            <input type="hidden" name="messageId" value="<%= message.id %>">
+                                            <button type="submit" class="text-red-500 text-xs font-bold">
+                                                🗑️ Apagar 
+                                            </button>
+                                        </form>
+                                    <% } %>
+                            <% } else { %>
+                                <div class="flex flex-col italic text-gray-400">
+                                    <span class="text-gray-400 italic"> Identidade secreta (Torne-se membro para ver)</span>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="text-center text-gray-500 italic">Ainda não há mensagens no clube. Seja o primeiro a falar!</p>
+            <% } %>
+        </div>
+    </main>
+
+</body>
+</html>
